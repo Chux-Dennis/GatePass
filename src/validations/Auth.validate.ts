@@ -25,4 +25,4 @@ export const validateVerifyOTP = Joi.object({
 export const validateLogin = Joi.object({
   email:Joi.string().email().required(),
   password:Joi.string().min(8).max(50).required()
-})
+}).min(1).required()

@@ -18,6 +18,8 @@ import { SendOTP } from "../mail/Auth.mail";
 const JWT_SECRET = process.env.JWT_SECRET!
 
 
+
+
 export const newOrganizer = async (
   req: Request,
   res: Response,

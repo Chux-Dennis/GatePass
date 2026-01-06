@@ -18,3 +18,5 @@ export interface UserAttributes {
 
 
 export interface UserInstance extends Model<UserAttributes>, UserAttributes {}
+
+export type SafeUser = Omit<UserAttributes,"password">
