@@ -49,7 +49,10 @@ export const allEvents = async (
   try {
     const organizerId = (req as AuthRequest).user.id!;
 
-    const allEvents = await Events.findAll({ where: { organizerId } });
+    const allEvents = await Events.findAll({
+      where: { organizerId },
+      order: ["createdAt", "DESC"],
+    });
 
     res
       .status(200)
@@ -149,17 +152,20 @@ export const getOneEvent = async (
     const { id } = req.params;
 
     //Check if event exists
-    const eventExists = await Events.findByPk(id);
-    
+    const eventExists = await Events.findOne({where:{id},include:[{model:TicketType,as:"ticketTypes"}]});
 
     if (!eventExists) {
       return res.status(400).send({ message: "Event not found" });
     }
 
-    //Query ticketType table for now , fix with assocaitions later
-    const ticketsForEvent = await TicketType.findAll({where:{eventId:eventExists.id}}) || []
 
-    res.status(200).send({ message: "Event details fetched", details:eventExists ,tickets: ticketsForEvent});
+    res
+      .status(200)
+      .send({
+        message: "Event details fetched",
+        details: eventExists,
+        
+      });
   } catch (error) {
     next(error);
   }
@@ -188,26 +194,25 @@ export const createEventTicket = async (
     }
 
     //Check if ticket type exist -> by ticket name
-    const ticketTypeExists = await TicketType.findOne({where:{name}})
-    if(ticketTypeExists){
-    return  res.status(400).send({message:`Ticket type:${name} already exists.`})
+    const ticketTypeExists = await TicketType.findOne({ where: { name } });
+    if (ticketTypeExists) {
+      return res
+        .status(400)
+        .send({ message: `Ticket type:${name} already exists.` });
     }
-
 
     const ticket = await TicketType.create({
       eventId: eventExists?.id!,
       name,
       price,
       quantity,
-      sold: false,
+      sold: 0,
     });
 
-    res
-      .status(201)
-      .send({
-        message: `Ticket for ${eventExists?.title} created successfully`,
-        details: ticket,
-      });
+    res.status(201).send({
+      message: `Ticket for ${eventExists?.title} created successfully`,
+      details: ticket,
+    });
   } catch (error) {
     next(error);
   }
@@ -221,7 +226,6 @@ export const getEventTicket = async (
   const { id } = req.params;
 
   try {
-  
     //Check if event exists
     const eventExists = await Events.findByPk(id);
     if (!eventExists) {
@@ -229,15 +233,15 @@ export const getEventTicket = async (
     }
 
     //Check if ticket type exist -> by ticket name
-    const tickets = await TicketType.findAll({where:{eventId:eventExists.id}})
- 
+    const tickets = await TicketType.findAll({
+      where: { eventId: eventExists.id },
+      order: [["createdAt", "DESC"]], 
+    });
 
-    res
-      .status(200)
-      .send({
-        message: `Tickets for ${eventExists?.title} fetched successfully`,
-        data: tickets,
-      });
+    res.status(200).send({
+      message: `Tickets for ${eventExists?.title} fetched successfully`,
+      data: tickets,
+    });
   } catch (error) {
     next(error);
   }

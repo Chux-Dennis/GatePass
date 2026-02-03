@@ -6,7 +6,9 @@ export interface TicketTypeAttributes {
   name: string;
   price: number;
   quantity: number;
-  sold: boolean;
+  sold: number;
+  // sold: boolean;
+
 }
 
 export interface TicketTypeInstance

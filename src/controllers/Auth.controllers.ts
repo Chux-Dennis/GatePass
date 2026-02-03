@@ -492,7 +492,7 @@ export const loginBuyer = async(req:Request,res:Response,next:NextFunction)=>{
     })
 
 
-    res.status(200).send({message:"Successfully logged in",token})
+    res.status(200).send({message:" Buyer Successfully logged in",token,details:userwopass})
     
   } catch (error) {
     next(error)

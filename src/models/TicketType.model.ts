@@ -25,8 +25,10 @@ const TicketType = SequelizeConfig.define<TicketTypeInstance>("ticket_type",{
         allowNull:false
     },
     sold:{
-        type:DataTypes.BOOLEAN,
-        defaultValue:false
+   
+
+          type:DataTypes.INTEGER,
+      defaultValue:0
     }
 
 })

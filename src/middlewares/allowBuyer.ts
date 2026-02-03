@@ -6,7 +6,7 @@ interface AuthRequest extends Request {
   user?: JwtPayload | string;
 }
 
-export const allowOrganizer = (
+export const allowBuyer = (
   req: AuthRequest,
   res: Response,
   next: NextFunction
@@ -30,9 +30,9 @@ export const allowOrganizer = (
 
     let role = decoded.role as UserAttributes["role"]
 
-    if (role !== "Organizer") {
+    if (role !== "Buyer") {
       return res.status(403).json({
-        message: "Access denied. Organizer role required.",
+        message: "Access denied. Buyer role required.",
       });
     }
 

@@ -11,12 +11,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@types/axios": "^0.14.4",
     "@types/bcrypt": "^6.0.0",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
     "@types/nodemailer": "^7.0.4",
+    "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
@@ -27,6 +29,7 @@
     "mysql2": "^3.16.0",
     "nodemailer": "^7.0.12",
     "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.5",
     "typescript": "^5.9.3"
   }
 }
